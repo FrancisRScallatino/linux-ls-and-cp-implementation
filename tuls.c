@@ -19,9 +19,10 @@ int main (int argc, char *argv[])
                exit(EXIT_FAILURE);
            }
            
-           while (n--) {
-               printf("%s\n", namelist[n]->d_name);
-               free(namelist[n]);
+           int i = 0;
+           while (i<n) {
+               printf("%s\n", namelist[i]->d_name);
+               free(namelist[i++]);
            }
            free(namelist);
 
