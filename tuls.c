@@ -7,6 +7,11 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+void reursiveList (char *basepath)
+{
+    printf("in recursive function");
+}
+
 int main (int argc, char *argv[])
 {
     if (argc == 1)
@@ -15,6 +20,7 @@ int main (int argc, char *argv[])
         int n;                      //file/dir count
 
         //scans current dir and returns with the number of files located
+        //also fills namelist with the names of each file found
         n = scandir(".", &namelist, NULL, alphasort);
         if (n == -1) {
             perror("scandir");
@@ -31,6 +37,6 @@ int main (int argc, char *argv[])
 
         exit(EXIT_SUCCESS);
     } else {
-
+        reursiveList(*argv);
     }
 }
