@@ -6,10 +6,34 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <string.h>
 
-void reursiveList (char *basepath)
+void recursiveList (char *basePath)
 {
-    printf("in recursive function");
+    char path [256];
+    struct dirent *dp;
+    DIR *dir = opendir(basePath);
+
+    //base case
+    //cannot open directory
+    if (!dir) return;
+
+    //loop until there's no file to be read
+    while((dp = readdir(dir)) != NULL)
+    {
+        //if dir name is not the working or parent directory
+        if(strcmp(dp -> d_name, ".") != 0 && strcmp(dp -> d_name, "..") != 0)
+        {
+            printf("%s\n", dp -> d_name);
+
+            //make new, deeper path from base path
+            strcpy(path, basePath);
+            strcat(path, "/");
+            strcat(path, dp -> d_name);
+
+            recursiveList(path);
+        }
+    }
 }
 
 int main (int argc, char *argv[])
@@ -37,6 +61,6 @@ int main (int argc, char *argv[])
 
         exit(EXIT_SUCCESS);
     } else {
-        reursiveList(*argv);
+        recursiveList(argv[0]);
     }
 }
