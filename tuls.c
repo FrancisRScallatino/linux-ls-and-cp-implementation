@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
+#include <errno.h>
 
 void recursiveList (char *basePath)
 {
@@ -16,7 +17,9 @@ void recursiveList (char *basePath)
 
     //base case
     //cannot open directory
-    if (!dir) return;
+    if (!dir){
+        return;
+    }
 
     //loop until there's no file to be read
     while((dp = readdir(dir)) != NULL)
@@ -24,6 +27,7 @@ void recursiveList (char *basePath)
         //if dir name is not the working or parent directory
         if(strcmp(dp -> d_name, ".") != 0 && strcmp(dp -> d_name, "..") != 0)
         {
+            //printf("made it past the if\n");
             printf("%s\n", dp -> d_name);
 
             //make new, deeper path from base path
@@ -34,6 +38,8 @@ void recursiveList (char *basePath)
             recursiveList(path);
         }
     }
+
+    closedir(dir);
 }
 
 int main (int argc, char *argv[])
@@ -51,7 +57,6 @@ int main (int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
         
-        //prints files/dirs in current dir in order (first to last)
         int i = 0;
         while (i<n) {
             printf("%s\n", namelist[i]->d_name);
@@ -61,6 +66,6 @@ int main (int argc, char *argv[])
 
         exit(EXIT_SUCCESS);
     } else {
-        recursiveList(argv[0]);
+        recursiveList(argv[1]);
     }
 }
