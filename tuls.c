@@ -53,7 +53,7 @@ int main (int argc, char *argv[])
         //also fills namelist with the names of each file found
         n = scandir(".", &namelist, NULL, alphasort);
         if (n == -1) {
-            perror("scandir");
+            perror("scandir");  //print a string as an error message
             exit(EXIT_FAILURE);
         }
         
