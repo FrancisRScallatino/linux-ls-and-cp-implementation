@@ -60,7 +60,7 @@ int main (int argc, char *argv[])
         int i = 0;
         while (i<n) {
             printf("%s\n", namelist[i]->d_name);
-            free(namelist[i++]);
+            free(namelist[i++]); //frees up space in the namelist heap (takes an entry out, moving to the next entry in the heap)
         }
         free(namelist);
 

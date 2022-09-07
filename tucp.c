@@ -7,5 +7,11 @@
 
 int main (int argc, char **argv)
 {
-    
+    if(argc == 1 || argc == 2){
+        perror("Must supply arguments>1 (e.g. ./tucp [arg 1] [arg 2]...)");
+    }else if (argc == 3){
+        
+    }else{
+        
+    }
 }
