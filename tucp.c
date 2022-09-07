@@ -16,6 +16,42 @@ int main (int argc, char **argv)
         if(dir){
             perror("First argument must not be a directory.");
             exit(EXIT_FAILURE);
+<<<<<<< Updated upstream
+=======
+        }else if((dir = opendir(argv[2]))){                     //if second entry is a directory
+            /* find the file
+             * if !exists throw error
+             * else get file path
+             * copy file to new path
+             * if path !exists, make the subdirs and copy contents there
+             * if file already exists, overwrite
+             */
+            short match = 0;        //file entry matches a file in working dir
+            char sourcePath [256];  //path to to file being copied
+
+            while((dirEntry = readdir(workingDir)) != NULL){
+                if (strcmp(dirEntry -> d_name, argv[1]) == 0){
+                    realpath(dirEntry->d_name, sourcePath);
+                    match++;
+                    break;
+                }
+            }
+
+            if(!match){
+                perror("(first argument) file does not exist");
+                exit(EXIT_FAILURE);
+            }
+            
+        }else{                                                  //if both entries are files
+            /* if file entries are exactly the same, throw error
+             * if file extensions are different, throw error
+             * find first file
+             * get it's path
+             * find second file
+             * get it's path
+             * copy contents of first file into second file
+             */
+>>>>>>> Stashed changes
         }
     }else
     {
