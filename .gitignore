@@ -1,5 +1,6 @@
 .vscode/
 testdir/
+test/
 *.zip
 tuls
 tucp

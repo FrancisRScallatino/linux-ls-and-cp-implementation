@@ -12,12 +12,12 @@ int main (int argc, char **argv)
 
     if(argc == 1 || argc == 2)
     {
-        perror("Must supply arguments>1 (e.g. ./tucp [arg 1] [arg 2]...)");
+        printf("Must supply arguments>1 (e.g. ./tucp [arg 1] [arg 2]...)\n");
     }else if (argc == 3)
     {
         DIR *dir = opendir(argv[1]);
         if(dir){
-            perror("First argument must not be a directory.");
+            printf("First argument must not be a directory.\n");
             exit(EXIT_FAILURE);
         }else if((dir = opendir(argv[2]))){                     //if second entry is a directory
             /* find the file
@@ -32,14 +32,14 @@ int main (int argc, char **argv)
 
             while((dirEntry = readdir(workingDir)) != NULL){
                 if (strcmp(dirEntry -> d_name, argv[1]) == 0){
-                    realpath(dirEntry -> d_name, sourcePath);
+                    realpath(dirEntry->d_name, sourcePath);
                     match++;
                     break;
                 }
             }
 
             if(!match){
-                perror("error with first argument");
+                perror("first argument");
                 exit(EXIT_FAILURE);
             }
             
