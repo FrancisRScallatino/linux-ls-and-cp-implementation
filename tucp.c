@@ -7,6 +7,9 @@
 
 int main (int argc, char **argv)
 {
+    struct dirent *dirEntry;
+    DIR *workingDir = opendir(".");
+
     if(argc == 1 || argc == 2)
     {
         perror("Must supply arguments>1 (e.g. ./tucp [arg 1] [arg 2]...)");
@@ -16,8 +19,6 @@ int main (int argc, char **argv)
         if(dir){
             perror("First argument must not be a directory.");
             exit(EXIT_FAILURE);
-<<<<<<< Updated upstream
-=======
         }else if((dir = opendir(argv[2]))){                     //if second entry is a directory
             /* find the file
              * if !exists throw error
@@ -31,14 +32,14 @@ int main (int argc, char **argv)
 
             while((dirEntry = readdir(workingDir)) != NULL){
                 if (strcmp(dirEntry -> d_name, argv[1]) == 0){
-                    realpath(dirEntry->d_name, sourcePath);
+                    realpath(dirEntry -> d_name, sourcePath);
                     match++;
                     break;
                 }
             }
 
             if(!match){
-                perror("(first argument) file does not exist");
+                perror("error with first argument");
                 exit(EXIT_FAILURE);
             }
             
@@ -51,7 +52,6 @@ int main (int argc, char **argv)
              * get it's path
              * copy contents of first file into second file
              */
->>>>>>> Stashed changes
         }
     }else
     {
