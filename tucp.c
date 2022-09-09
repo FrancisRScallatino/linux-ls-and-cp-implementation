@@ -12,11 +12,13 @@ void CopyFile (char *source, char *destination)
     printf("source: %s\ndestination: %s", source, destination);
 }
 
-char* getFullDestinationPath(char *dest, char *fileName)
+void getFullDestinationPath(char *dest, char *fileName)
 {
-    char *path = strcat(fileName,strchr(dest, '/'));
+    printf("entering getFullDestinationPath");
+    dest = strcat(fileName,strchr(dest, '/'));
     char buf[75];
-    return path = strcat(path, getcwd(buf, 4096));
+    dest = strcat(dest, getcwd(buf, 4096));
+    printf("destination string: %s", dest);
 }
 
 //this function takes in 2 arguments {[file name], [directory path]} copying the contents of the file to the given path
@@ -56,8 +58,10 @@ void ProcessTwoArguments(char **argv)
         
         const int BUFFER = 2048;
         char buf[75];
-        CopyFile(strcat(argv[1], (strcat("/", getcwd(buf, BUFFER)))),  //get's the full path of the file given in the first argument
-                 getFullDestinationPath(argv[2], argv[1]));
+        getFullDestinationPath(argv[2], argv[1]);
+        CopyFile(strcat(argv[1],
+                    (strcat("/", getcwd(buf, BUFFER)))),  //get's the full path of the file given in the first argument
+                 argv[2]);
 
     }else if(!dir){                         //if second entry is not a directory
         perror("second argument");
