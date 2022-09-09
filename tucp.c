@@ -1,12 +1,26 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <dirent.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <string.h>
 #include <errno.h>
+#include <ctype.h>
+
+void CopyFile (char *source, char *destination)
+{
+    printf("source: %s\ndestination: %s", source, destination);
+}
+
+char* getFullDestinationPath(char *dest, char *fileName)
+{
+    char *path = strcat(fileName,strchr(dest, '/'));
+    char buf[75];
+    return path = strcat(path, getcwd(buf, 4096));
+}
 
 //this function takes in 2 arguments {[file name], [directory path]} copying the contents of the file to the given path
-void TwoArguments(char **argv)
+void ProcessTwoArguments(char **argv)
 {
     struct dirent *dirEntry;
     DIR *workingDir = opendir(".");
@@ -39,9 +53,12 @@ void TwoArguments(char **argv)
             perror("first argument");
             exit(EXIT_FAILURE);
         }
-
-
         
+        const int BUFFER = 2048;
+        char buf[75];
+        CopyFile(strcat(argv[1], (strcat("/", getcwd(buf, BUFFER)))),  //get's the full path of the file given in the first argument
+                 getFullDestinationPath(argv[2], argv[1]));
+
     }else if(!dir){                         //if second entry is not a directory
         perror("second argument");
         exit(EXIT_FAILURE);            
@@ -69,7 +86,7 @@ int main (int argc, char **argv)
     {
         printf("must supply arguments>1 (e.g. ./tucp [arg 1] [arg 2]...)\n");
     }else if (argc == 3){       //if only 2 entries sent to exe
-        TwoArguments(argv);
+        ProcessTwoArguments(argv);
     }else{                      //if x>2 entries sent to exe
 
     }

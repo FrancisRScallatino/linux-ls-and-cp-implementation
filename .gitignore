@@ -4,4 +4,5 @@ test/
 *.zip
 tuls
 tucp
+tucpgdb
 a.out
