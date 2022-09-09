@@ -12,13 +12,21 @@ void CopyFile (char *source, char *destination)
     printf("source: %s\ndestination: %s", source, destination);
 }
 
-void getFullDestinationPath(char *dest, char *fileName)
+void getAbsoluteDestPath(char *dest, char *fileName)
 {
-    printf("entering getFullDestinationPath");
-    dest = strcat(fileName,strchr(dest, '/'));
     char buf[75];
-    dest = strcat(dest, getcwd(buf, 4096));
-    printf("destination string: %s", dest);
+    int buf_num = 2048;
+    //check if path is relative or absolute
+    if((dest[0] == '.') || dest[0] == '/'){
+        dest = strcat(strchr(dest, '/'), fileName);
+        dest = strcat(getcwd(buf, buf_num), dest);
+    }else{
+        dest = strcat(dest, fileName);
+        char *absp = strcat(getcwd(buf, buf_num), "/");
+        dest = strcat(absp, dest);
+    }
+    
+    printf("\nabsolute path: %s\n", dest);
 }
 
 //this function takes in 2 arguments {[file name], [directory path]} copying the contents of the file to the given path
@@ -56,12 +64,14 @@ void ProcessTwoArguments(char **argv)
             exit(EXIT_FAILURE);
         }
         
-        const int BUFFER = 2048;
-        char buf[75];
-        getFullDestinationPath(argv[2], argv[1]);
-        CopyFile(strcat(argv[1],
+        printf("before dest");  
+        //const int BUFFER = 1024;
+        //char buf[75];
+        getAbsoluteDestPath(argv[2], argv[1]);
+        printf("\ndestination: %s\n", argv[2]);
+        /*CopyFile(strcat(argv[1],
                     (strcat("/", getcwd(buf, BUFFER)))),  //get's the full path of the file given in the first argument
-                 argv[2]);
+                 argv[2]);*/
 
     }else if(!dir){                         //if second entry is not a directory
         perror("second argument");
